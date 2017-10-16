@@ -1,0 +1,23 @@
+{
+  "name": "safaricom/mpesa",
+  "description": "A PHP package for Mpesa API",
+  "type": "package",
+ "minimum-stability": "dev", 
+ 
+"require": {
+    "php": ">=5.3.0"
+  },
+  "license": "mit",
+  "authors": [
+    {
+      "name": "",
+      "email": ""
+    }
+  ],
+ 
+  "autoload": {
+    "psr-4": {
+      "safaricom\\Mpesa\\": "src"
+    }
+  }
+}
