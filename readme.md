@@ -23,7 +23,6 @@ This package seeks to help php developers implement the various Mpesa APIs witho
  
  This creates transaction between an M-Pesa short code to a phone number registered on M-Pesa.
  
- 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
 `$b2cTransaction=$mpesa->b2c( $live,$ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
