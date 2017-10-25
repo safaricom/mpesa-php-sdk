@@ -66,6 +66,7 @@ _$live - Takes two values "true" or "false" || "true" for live applications and 
 
 This is used to Simulate transfer of funds between a customer and business.
 
+
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
 `$b2bTransaction=$mpesa->c2b($live, $ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
@@ -103,14 +104,16 @@ M-Pesa APIs are asynchronous. When a valid M-Pesa API request is received by the
 
 **Obtaining post data from callbacks**
  This is used to get post data from callback in json format. The data can be decoded and stored in a database.
+ 
  `$mpesa= new \Safaricom\Mpesa\Mpesa();`
  
-  `$callbackData=$mpesa->getDataFromCallback();`
+ `$callbackData=$mpesa->getDataFromCallback();`
   
   **Finishing a transaction**
   After obtaining the Post data from the callbacks, use this at the end of your callback routes to complete the transaction
-   `$mpesa= new \Safaricom\Mpesa\Mpesa();`
-   
-    `$callbackData=$mpesa->finishTransaction();`
+  
+  `$mpesa= new \Safaricom\Mpesa\Mpesa();`
+  
+  `$callbackData=$mpesa->finishTransaction();`
 
 
