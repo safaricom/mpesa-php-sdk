@@ -64,7 +64,7 @@ _$live - Takes two values "true" or "false" || "true" for live applications and 
 
 **C2B Payment Request**
 
-This is used to Simulate atranser of funds between a customer and business.
+This is used to Simulate transfer of funds between a customer and business.
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
