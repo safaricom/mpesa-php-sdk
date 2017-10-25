@@ -6,7 +6,7 @@ This package seeks to help php developers implement the various Mpesa APIs witho
  `composer require safaricom/mpesa`<br>
  
  
- **Configuration**<br> 
+ **Configuration**<br>
  At your project root, create a .env file and in it set the consumer key and consumer secret as follows   
  `consumer_key= [consumer key]` <br>
  `consumer_secret=[consumer secret]`<br>
@@ -25,7 +25,7 @@ This package seeks to help php developers implement the various Mpesa APIs witho
  
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$b2cTransaction=$mpesa->b2c( $live,$ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
+`$b2cTransaction=$mpesa->b2c($live, $InitiatorName, $SecurityCredential, $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion);`
 
 _$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 
@@ -62,6 +62,18 @@ This is used to transfer funds between two companies.
 _$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 
 
+**C2B Payment Request**
+
+This is used to Simulate atranser of funds between a customer and business.
+
+`$mpesa= new \Safaricom\Mpesa\Mpesa();`
+
+`$b2bTransaction=$mpesa->c2b($live, $ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
+
+_$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
+_Also important to note is that you should have registered validation and confirmation urls where the callback responses will be sent._
+
+
 
 **STK Push Simulation**
 
@@ -86,22 +98,19 @@ _$live - Takes two values "true" or "false" || "true" for live applications and 
 
 
 
-**Confirmation and Validation**
+**Callback Routes**
+M-Pesa APIs are asynchronous. When a valid M-Pesa API request is received by the API Gateway, it is sent to M-Pesa where it is added to a queue. M-Pesa then processes the requests in the queue and sends a response to the API Gateway which then forwards the response to the URL registered in the CallBackURL or ResultURL request parameter. Whenever M-Pesa receives more requests than the queue can handle, M-Pesa responds by rejecting any more requests and the API Gateway sends a queue timeout response to the URL registered in the QueueTimeOutURL request parameter.
 
-These are required in order to complete most of the transaction. Without these the transactions won't be complete. Therefore, register your URLS in the developer portal and soon as you're done  be sure to ensure your validation URL and confirmation URL contain the following.
- 
- **Validation**
-
-
+**Obtaining post data from callbacks**
+ This is used to get post data from callback in json format. The data can be decoded and stored in a database.
  `$mpesa= new \Safaricom\Mpesa\Mpesa();`
  
- `$b2bTransaction=$mpesa->validate();`
- 
- **Confirmation**
- 
- `$mpesa= new \Safaricom\Mpesa\Mpesa();`
- 
- `$b2bTransaction=$mpesa->confirm();`
- 
+  `$callbackData=$mpesa->getDataFromCallback();`
+  
+  **Finishing a transaction**
+  After obtaining the Post data from the callbacks, use this at the end of your callback routes to complete the transaction
+   `$mpesa= new \Safaricom\Mpesa\Mpesa();`
+   
+    `$callbackData=$mpesa->finishTransaction();`
 
 
