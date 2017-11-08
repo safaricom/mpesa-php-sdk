@@ -71,7 +71,7 @@ class Mpesa
      * @param $CommandID | Takes only 'TransactionReversal' Command id
      * @param $Initiator | The name of Initiator to initiating  the request
      * @param $SecurityCredential | 	Encrypted Credential of user getting transaction amount
-     * @param $TransactionID | Organization Receiving the funds
+     * @param $TransactionID | Unique Id received with every transaction response.
      * @param $Amount | Amount
      * @param $ReceiverParty | Organization /MSISDN sending the transaction
      * @param $RecieverIdentifierType | Type of organization receiving the transaction
@@ -282,7 +282,7 @@ class Mpesa
      * @param $Initiator | The name of Initiator to initiating the request.
      * @param $SecurityCredential | 	Base64 encoded string of the M-Pesa short code and password, which is encrypted using M-Pesa public key and validates the transaction on M-Pesa Core system.
      * @param $CommandID | Unique command for each transaction type, possible values are: TransactionStatusQuery.
-     * @param $TransactionID | Organization Receiving the funds.
+     * @param $TransactionID | Unique Id received with every transaction response.
      * @param $PartyA | Organization/MSISDN sending the transaction
      * @param $IdentifierType | Type of organization receiving the transaction
      * @param $ResultURL | The path that stores information of transaction
