@@ -10,6 +10,7 @@ This package seeks to help php developers implement the various Mpesa APIs witho
  At your project root, create a .env file and in it set the consumer key and consumer secret as follows   
  `consumer_key= [consumer key]` <br>
  `consumer_secret=[consumer secret]`<br>
+ `application_status=[live or sandbox]`<br>
  For Laravel users, open the Config/App.php file and add `\Safaricom\Mpesa\MpesaServiceProvider::class` under providers and ` 'Mpesa'=> \Safaricom\Mpesa\MpesaServiceProvider::class` under aliases.
   
   _Remember to edit the consumer_key and consumer_secret values appropriately when switching between sandbox and live_
@@ -17,7 +18,7 @@ This package seeks to help php developers implement the various Mpesa APIs witho
   
  **Usage**
  
- **Confirmation and validation urls**
+ **Confirmation and validation urls** 
 
 **B2C Payment Request**
  
@@ -25,9 +26,8 @@ This package seeks to help php developers implement the various Mpesa APIs witho
  
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$b2cTransaction=$mpesa->b2c($live, $InitiatorName, $SecurityCredential, $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion);`
+`$b2cTransaction=$mpesa->b2c($InitiatorName, $SecurityCredential, $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion);`
 
-_$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 
 
 **Account Balance Request**
@@ -36,9 +36,8 @@ This is used to enquire the balance on an M-Pesa BuyGoods (Till Number)
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$balanceInquiry=$mpesa->accountBalance($live,$CommandID, $Initiator, $SecurityCredential, $PartyA, $IdentifierType, $Remarks, $QueueTimeOutURL, $ResultURL);`
+`$balanceInquiry=$mpesa->accountBalance($CommandID, $Initiator, $SecurityCredential, $PartyA, $IdentifierType, $Remarks, $QueueTimeOutURL, $ResultURL);`
 
-_$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 
 
 **Transaction Status Request**
@@ -46,9 +45,8 @@ This is used to check the status of transaction.
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$trasactionStatus=$mpesa->transactionStatus($live,$Initiator, $SecurityCredential, $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion);`
+`$trasactionStatus=$mpesa->transactionStatus($Initiator, $SecurityCredential, $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion);`
 
-_$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 
 
 **B2B Payment Request**
@@ -57,9 +55,8 @@ This is used to transfer funds between two companies.
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$b2bTransaction=$mpesa->b2b($live,$ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
+`$b2bTransaction=$mpesa->b2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
 
-_$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 
 
 **C2B Payment Request**
@@ -69,9 +66,8 @@ This is used to Simulate transfer of funds between a customer and business.
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$b2bTransaction=$mpesa->c2b($live, $ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
+`$b2bTransaction=$mpesa->c2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
 
-_$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 _Also important to note is that you should have registered validation and confirmation urls where the callback responses will be sent._
 
 
@@ -82,9 +78,8 @@ This is used to initiate online payment on behalf of a customer.
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$stkPushSimulation=$mpesa->STKPushSimulation($live,$BusinessShortCode, $LipaNaMpesaPasskey, $TransactionType, $Amount, $PartyA, $PartyB, $PhoneNumber, $CallBackURL, $AccountReference, $TransactionDesc, $Remarks);`
+`$stkPushSimulation=$mpesa->STKPushSimulation($BusinessShortCode, $LipaNaMpesaPasskey, $TransactionType, $Amount, $PartyA, $PartyB, $PhoneNumber, $CallBackURL, $AccountReference, $TransactionDesc, $Remarks);`
 
-_$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 
 
 **STK Push Status Query**
@@ -93,9 +88,8 @@ _$live - Takes two values "true" or "false" || "true" for live applications and 
  
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$STKPushRequestStatus=$mpesa->STKPushQuery($live,$checkoutRequestID,$businessShortCode,$password,$timestamp);`
+`$STKPushRequestStatus=$mpesa->STKPushQuery($checkoutRequestID,$businessShortCode,$password,$timestamp);`
 
-_$live - Takes two values "true" or "false" || "true" for live applications and "false"  for sandbox applications_
 
 
 
