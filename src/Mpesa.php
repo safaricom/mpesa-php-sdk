@@ -130,7 +130,7 @@ class Mpesa
 
     /**
      * @param $InitiatorName | 	This is the credential/username used to authenticate the transaction request.
-     * @param $SecurityCredential | Base64 encoded string of the B2C short code and password, which is encrypted using M-Pesa public key and validates the transaction on M-Pesa Core system.
+     * @param $SecurityCredential | Encrypted password for the initiator to autheticate the transaction request
      * @param $CommandID | Unique command for each transaction type e.g. SalaryPayment, BusinessPayment, PromotionPayment
      * @param $Amount | The amount being transacted
      * @param $PartyA | Organization’s shortcode initiating the transaction.
@@ -236,7 +236,7 @@ class Mpesa
      * Use this to initiate a balance inquiry request
      * @param $CommandID | A unique command passed to the M-Pesa system.
      * @param $Initiator | 	This is the credential/username used to authenticate the transaction request.
-     * @param $SecurityCredential | Base64 encoded string of the M-Pesa short code and password, which is encrypted using M-Pesa public key and validates the transaction on M-Pesa Core system.
+     * @param $SecurityCredential | Encrypted password for the initiator to autheticate the transaction request
      * @param $PartyA | Type of organization receiving the transaction
      * @param $IdentifierType |Type of organization receiving the transaction
      * @param $Remarks | Comments that are sent along with the transaction.
@@ -288,7 +288,7 @@ class Mpesa
     /**
      * Use this function to make a transaction status request
      * @param $Initiator | The name of Initiator to initiating the request.
-     * @param $SecurityCredential | 	Base64 encoded string of the M-Pesa short code and password, which is encrypted using M-Pesa public key and validates the transaction on M-Pesa Core system.
+     * @param $SecurityCredential | 	Encrypted password for the initiator to autheticate the transaction request.
      * @param $CommandID | Unique command for each transaction type, possible values are: TransactionStatusQuery.
      * @param $TransactionID | Organization Receiving the funds.
      * @param $PartyA | Organization/MSISDN sending the transaction
@@ -346,7 +346,7 @@ class Mpesa
     /**
      * Use this function to initiate a B2B request
      * @param $Initiator | This is the credential/username used to authenticate the transaction request.
-     * @param $SecurityCredential | Base64 encoded string of the B2B short code and password, which is encrypted using M-Pesa public key and validates the transaction on M-Pesa Core system.
+     * @param $SecurityCredential | Encrypted password for the initiator to autheticate the transaction request.
      * @param $Amount | Base64 encoded string of the B2B short code and password, which is encrypted using M-Pesa public key and validates the transaction on M-Pesa Core system.
      * @param $PartyA | Organization’s short code initiating the transaction.
      * @param $PartyB | Organization’s short code receiving the funds being transacted.
