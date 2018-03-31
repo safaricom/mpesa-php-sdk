@@ -471,7 +471,7 @@ class Mpesa
      * @param $timestamp | Timestamp
      * @return mixed|string
      */
-    public static function STKPushQuery($live, $checkoutRequestID, $businessShortCode, $password, $timestamp){
+    public static function STKPushQuery($checkoutRequestID, $businessShortCode, $password, $timestamp){
         $live=env("live");
 
         if( $live =="true"){
