@@ -6,6 +6,7 @@
  * Time: 4:59 PM
  */
 namespace Safaricom\Mpesa;
+use Dotenv\Dotenv;
 
 
 /**
@@ -532,4 +533,33 @@ class Mpesa
     }
 
 
+}
+
+if (!function_exists('env')) {
+    function env($key){
+
+        if(!is_string($key)){
+
+            return json_encode(["Message"=>"Invalid key provided {$key}"]);
+        }
+
+        if(array_key_exists($key,getEnv())){
+            return getenv()[$key];
+        }
+        return json_encode(["Message"=>"no defined environment variable for {$key}"]);
+    }
+
+    function getEnv() {
+        $c = new Dotenv( './' );
+
+        $envVariables=[];
+
+        foreach ( $c->load() as $var ) {
+            $config=explode('=',$var);
+
+            $envVariables[$config[0]]=$config[1];
+        }
+        return $envVariables;
+
+    }
 }
