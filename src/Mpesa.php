@@ -85,12 +85,12 @@ class Mpesa
      * @return mixed|string
      */
     public static function reversal($CommandID, $Initiator, $SecurityCredential, $TransactionID, $Amount, $ReceiverParty, $RecieverIdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion){
-        $live=env("live");
+        $live=env("application_status");
 
-        if( $live =="true"){
+        if( $live =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/reversal/v1/request';
             $token=self::generateLiveToken();
-        }elseif ($live=="false"){
+        }elseif ($live=="sandbox"){
             $url = 'https://sandbox.safaricom.co.ke/mpesa/reversal/v1/request';
             $token=self::generateSandBoxToken();
         }else{
@@ -301,12 +301,12 @@ class Mpesa
      * @return mixed|string
      */
     public function transactionStatus($Initiator, $SecurityCredential, $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion){
-        $live=env("live");
+        $live=env("application_status");
 
-        if( $live =="true"){
+        if( $live =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query';
             $token=self::generateLiveToken();
-        }elseif ($live=="false"){
+        }elseif ($live=="sandbox"){
             $url = 'https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query';
             $token=self::generateSandBoxToken();
         }else{
@@ -473,12 +473,12 @@ class Mpesa
      * @return mixed|string
      */
     public static function STKPushQuery($checkoutRequestID, $businessShortCode, $password, $timestamp){
-        $live=env("live");
+        $live=env("application_status");
 
-        if( $live =="true"){
+        if( $live =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query';
             $token=self::generateLiveToken();
-        }elseif ($live=="false"){
+        }elseif ($live=="sandbox"){
             $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query';
             $token=self::generateSandBoxToken();
         }else{
