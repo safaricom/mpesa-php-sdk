@@ -251,6 +251,7 @@ class TransactionCallbacks
         $resultDesc=$callbackData->Body->stkCallback->ResultDesc;
         $merchantRequestID=$callbackData->Body->stkCallback->MerchantRequestID;
         $checkoutRequestID=$callbackData->Body->stkCallback->CheckoutRequestID;
+
         $amount=$callbackData->stkCallback->Body->CallbackMetadata->Item[0]->Value;
         $mpesaReceiptNumber=$callbackData->Body->stkCallback->CallbackMetadata->Item[1]->Value;
         $balance=$callbackData->stkCallback->Body->CallbackMetadata->Item[2]->Value;
