@@ -512,11 +512,20 @@ class Mpesa
     /**
      *Use this function to confirm all transactions in callback routes
      */
-    public function finishTransaction(){
-        $resultArray=[
-            "ResultDesc"=>"Confirmation Service request accepted successfully",
-            "ResultCode"=>"0"
-        ];
+    public function finishTransaction($status = true)
+    {
+        if ($status === true) {
+            $resultArray=[
+                "ResultDesc"=>"Confirmation Service request accepted successfully",
+                "ResultCode"=>"0"
+            ];
+        } else {
+            $resultArray=[
+                "ResultDesc"=>"Confirmation Service not accepted",
+                "ResultCode"=>"1"
+            ];
+        }
+
         header('Content-Type: application/json');
 
         echo json_encode($resultArray);

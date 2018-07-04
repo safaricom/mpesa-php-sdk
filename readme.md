@@ -111,3 +111,11 @@ M-Pesa APIs are asynchronous. When a valid M-Pesa API request is received by the
   `$callbackData=$mpesa->finishTransaction();`
 
 
+  If validation fails, pass `false` to `finishTransaction()`
+
+  `$mpesa= new \Safaricom\Mpesa\Mpesa();`
+  
+  `$callbackData=$mpesa->finishTransaction(false);`
+
+
+
