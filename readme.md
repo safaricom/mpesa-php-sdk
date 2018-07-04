@@ -8,9 +8,9 @@ This package seeks to help php developers implement the various Mpesa APIs witho
  
  **Configuration**<br>
  At your project root, create a .env file and in it set the consumer key and consumer secret as follows   
- `consumer_key= [consumer key]` <br>
- `consumer_secret=[consumer secret]`<br>
- `application_status=[live or sandbox]`<br>
+ `MPESA_CONSUMER_KEY= [consumer key]` <br>
+ `MPESA_CONSUMER_SECRET=[consumer secret]`<br>
+ `MPESA_ENV=[live or sandbox]`<br>
  For Laravel users, open the Config/App.php file and add `\Safaricom\Mpesa\MpesaServiceProvider::class` under providers and ` 'Mpesa'=> \Safaricom\Mpesa\MpesaServiceProvider::class` under aliases.
   
   _Remember to edit the consumer_key and consumer_secret values appropriately when switching between sandbox and live_
