@@ -18,5 +18,4 @@ class Mpesa extends Facade
         return 'Mpesa';
     }
 
-
 }
