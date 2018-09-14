@@ -20,6 +20,24 @@ MPESA_ENV=[live or sandbox]
 For Laravel users, open the Config/App.php file and add `\Safaricom\Mpesa\MpesaServiceProvider::class` under providers and ` 'Mpesa'=> \Safaricom\Mpesa\MpesaServiceProvider::class` under aliases.
   
   _Remember to edit the consumer_key and consumer_secret values appropriately when switching between sandbox and live_
+  
+
+In order to transact from multiple paybill numbers or till numbers , you can change the configs at runtime using the config helper.
+
+So we need to add the following to the services config file (config/services.php)
+
+```php
+return = [
+
+// More configs here
+
+'mpesa' => [
+        'MPESA_CONSUMER_KEY' => env('MPESA_CONSUMER_KEY'),
+        'MPESA_CONSUMER_SECRET' => env('MPESA_CONSUMER_SECRET'),
+        'MPESA_ENV' => env('MPESA_ENV')
+    ]
+];
+```
 
 ## Usage
 
@@ -131,24 +149,7 @@ This is used to get post data from callback in json format. The data can be deco
 
 ## Multitenancy support
 
-In order to transact from multiple paybill numbers, you can change the configs at runtime using the config helper
-
-First we need to add the following to the services config file (config/services.php)
-
-```php
-return = [
-
-// More configs here
-
-'mpesa' => [
-        'MPESA_CONSUMER_KEY' => env('MPESA_CONSUMER_KEY'),
-        'MPESA_CONSUMER_SECRET' => env('MPESA_CONSUMER_SECRET'),
-        'MPESA_ENV' => env('MPESA_ENV')
-    ]
-];
-```
-
-Then when handling transactions you do as follows
+When handling transactions you do as follows
 
 ```php
 /** Get client preferably from a database somewhere.
