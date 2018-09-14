@@ -1,123 +1,136 @@
-**Introduction**
+# Introduction
 
-This package seeks to help php developers implement the various Mpesa APIs without much hustle. It is based on the REST API whose documentation is available on http://developer.safaricom.co.ke.
+This package seeks to help php developers implement the various Mpesa APIs without much hustle. It is based on the REST API whose documentation is available on [Safaricom Developer](http://developer.safaricom.co.ke).
+
+## Installation using composer
+
+ ```
+ composer require safaricom/mpesa
+ ```
+
+## Configuration
+
+At your project root, create a .env file and in it set the consumer key and consumer secret as follows
+```.dotenv
+MPESA_CONSUMER_KEY=[consumer key]
+MPESA_CONSUMER_SECRET=[consumer secret]
+MPESA_ENV=[live or sandbox]
+```
  
- **Installation using composer**<br>
- `composer require safaricom/mpesa`<br>
- 
- 
- **Configuration**<br>
- At your project root, create a .env file and in it set the consumer key and consumer secret as follows   
- `MPESA_CONSUMER_KEY= [consumer key]` <br>
- `MPESA_CONSUMER_SECRET=[consumer secret]`<br>
- `MPESA_ENV=[live or sandbox]`<br>
- For Laravel users, open the Config/App.php file and add `\Safaricom\Mpesa\MpesaServiceProvider::class` under providers and ` 'Mpesa'=> \Safaricom\Mpesa\MpesaServiceProvider::class` under aliases.
+For Laravel users, open the Config/App.php file and add `\Safaricom\Mpesa\MpesaServiceProvider::class` under providers and ` 'Mpesa'=> \Safaricom\Mpesa\MpesaServiceProvider::class` under aliases.
   
   _Remember to edit the consumer_key and consumer_secret values appropriately when switching between sandbox and live_
 
-  
- **Usage**
- 
- **Confirmation and validation urls** 
+## Usage
 
-**B2C Payment Request**
- 
- This creates transaction between an M-Pesa short code to a phone number registered on M-Pesa.
- 
-`$mpesa= new \Safaricom\Mpesa\Mpesa();`
+### Confirmation and validation urls
 
-`$b2cTransaction=$mpesa->b2c($InitiatorName, $SecurityCredential, $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion);`
+### B2C Payment Request
 
+This creates transaction between an M-Pesa short code to a phone number registered on M-Pesa.
 
+```php
+$mpesa= new \Safaricom\Mpesa\Mpesa();
 
-**Account Balance Request**
- 
+$b2cTransaction=$mpesa->b2c($InitiatorName, $SecurityCredential, $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion);
+```
+
+### Account Balance Request
+
 This is used to enquire the balance on an M-Pesa BuyGoods (Till Number)
 
-`$mpesa= new \Safaricom\Mpesa\Mpesa();`
+```php
+$mpesa= new \Safaricom\Mpesa\Mpesa();
 
-`$balanceInquiry=$mpesa->accountBalance($CommandID, $Initiator, $SecurityCredential, $PartyA, $IdentifierType, $Remarks, $QueueTimeOutURL, $ResultURL);`
+$balanceInquiry = $mpesa->accountBalance($CommandID, $Initiator, $SecurityCredential, $PartyA, $IdentifierType, $Remarks, $QueueTimeOutURL, $ResultURL);
+```
 
+### Transaction Status Request
 
+This is used to check the status of transaction.
 
-**Transaction Status Request**
-This is used to check the status of transaction. 
+```php
+$mpesa = new \Safaricom\Mpesa\Mpesa();`
 
-`$mpesa= new \Safaricom\Mpesa\Mpesa();`
+$trasactionStatus = $mpesa->transactionStatus($Initiator, $SecurityCredential, $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion);
+```
 
-`$trasactionStatus=$mpesa->transactionStatus($Initiator, $SecurityCredential, $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion);`
-
-
-
-**B2B Payment Request**
+### B2B Payment Request
 
 This is used to transfer funds between two companies.
 
-`$mpesa= new \Safaricom\Mpesa\Mpesa();`
+```php
+$mpesa = new \Safaricom\Mpesa\Mpesa();
 
-`$b2bTransaction=$mpesa->b2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
+$b2bTransaction = $mpesa->b2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );
+```
 
-
-
-**C2B Payment Request**
+### C2B Payment Request
 
 This is used to Simulate transfer of funds between a customer and business.
 
+```php 
+$mpesa = new \Safaricom\Mpesa\Mpesa();
 
-`$mpesa= new \Safaricom\Mpesa\Mpesa();`
-
-`$b2bTransaction=$mpesa->c2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );`
+$b2bTransaction = $mpesa->c2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );
+```
 
 _Also important to note is that you should have registered validation and confirmation urls where the callback responses will be sent._
 
-
-
-**STK Push Simulation**
+### STK Push Simulation
 
 This is used to initiate online payment on behalf of a customer.
 
-`$mpesa= new \Safaricom\Mpesa\Mpesa();`
+```php
+$mpesa = new \Safaricom\Mpesa\Mpesa();
 
-`$stkPushSimulation=$mpesa->STKPushSimulation($BusinessShortCode, $LipaNaMpesaPasskey, $TransactionType, $Amount, $PartyA, $PartyB, $PhoneNumber, $CallBackURL, $AccountReference, $TransactionDesc, $Remarks);`
+$stkPushSimulation = $mpesa->STKPushSimulation($BusinessShortCode, $LipaNaMpesaPasskey, $TransactionType, $Amount, $PartyA, $PartyB, $PhoneNumber, $CallBackURL, $AccountReference, $TransactionDesc, $Remarks);
+```
 
-
-
-**STK Push Status Query**
+### STK Push Status Query
 
  This is used to check the status of a Lipa Na M-Pesa Online Payment.
- 
-`$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$STKPushRequestStatus=$mpesa->STKPushQuery($checkoutRequestID,$businessShortCode,$password,$timestamp);`
+ ```php
+$mpesa = new \Safaricom\Mpesa\Mpesa();`
 
+$STKPushRequestStatus = $mpesa->STKPushQuery($checkoutRequestID,$businessShortCode,$password,$timestamp);
+```
 
+### Callback Routes
 
-
-**Callback Routes**
 M-Pesa APIs are asynchronous. When a valid M-Pesa API request is received by the API Gateway, it is sent to M-Pesa where it is added to a queue. M-Pesa then processes the requests in the queue and sends a response to the API Gateway which then forwards the response to the URL registered in the CallBackURL or ResultURL request parameter. Whenever M-Pesa receives more requests than the queue can handle, M-Pesa responds by rejecting any more requests and the API Gateway sends a queue timeout response to the URL registered in the QueueTimeOutURL request parameter.
 
-**Obtaining post data from callbacks**
- This is used to get post data from callback in json format. The data can be decoded and stored in a database.
- 
- `$mpesa= new \Safaricom\Mpesa\Mpesa();`
- 
- `$callbackData=$mpesa->getDataFromCallback();`
+### Obtaining post data from callbacks
+
+This is used to get post data from callback in json format. The data can be decoded and stored in a database.
+
+ ```php
+ $mpesa= new \Safaricom\Mpesa\Mpesa();
+
+ $callbackData = $mpesa->getDataFromCallback();
+ ```
   
-  **Finishing a transaction**
+### Finishing a transaction
+
   After obtaining the Post data from the callbacks, use this at the end of your callback routes to complete the transaction
   
-  `$mpesa= new \Safaricom\Mpesa\Mpesa();`
+  ```php
+  $mpesa = new \Safaricom\Mpesa\Mpesa();
   
-  `$callbackData=$mpesa->finishTransaction();`
-
+  $callbackData = $mpesa->finishTransaction();
+  ```
 
   If validation fails, pass `false` to `finishTransaction()`
 
-  `$mpesa= new \Safaricom\Mpesa\Mpesa();`
+  ```php
+  $mpesa = new \Safaricom\Mpesa\Mpesa();
   
-  `$callbackData=$mpesa->finishTransaction(false);`
+  $callbackData = $mpesa->finishTransaction(false);
+  ```
 
-**Multitenancy support**
+## Multitenancy support
+
 In order to transact from multiple paybill numbers, you can change the configs at runtime using the config helper
 
 First we need to add the following to the services config file (config/services.php)
