@@ -117,5 +117,45 @@ M-Pesa APIs are asynchronous. When a valid M-Pesa API request is received by the
   
   `$callbackData=$mpesa->finishTransaction(false);`
 
+**Multitenancy support**
+In order to transact from multiple paybill numbers, you can change the configs at runtime using the config helper
 
+First we need to add the following to the services config file (config/services.php)
 
+```php
+return = [
+
+// More configs here
+
+'mpesa' => [
+        'MPESA_CONSUMER_KEY' => env('MPESA_CONSUMER_KEY'),
+        'MPESA_CONSUMER_SECRET' => env('MPESA_CONSUMER_SECRET'),
+        'MPESA_ENV' => env('MPESA_ENV')
+    ]
+];
+```
+
+Then when handling transactions you do as follows
+
+```php
+/** Get client preferably from a database somewhere.
+ * You can use a dynamic url or even an api key to identify which client the transaction belongs to.
+ * This can be done using a middleware implementation triggered before the transaction is processed.
+ * (Ignore this part if you don't want Multitenancy support as it will default to the values in the .env file)
+ */
+$clientA = [
+    'MPESA_CONSUMER_KEY' => 'MPESA_CONSUMER_KEY_HERE',
+    'MPESA_CONSUMER_SECRET' => 'MPESA_CONSUMER_SECRET_HERE',
+    'MPESA_ENV' => 'MPESA_ENV_HERE'
+];
+
+// change the configs depending on the client
+config(['services.mpesa' => $clientA ]);
+
+// Instanciate the mpesa class ONLY after changing the configs
+$mpesa = new \Safaricom\Mpesa\Mpesa();
+
+// Do your business logic here
+$b2bTransaction=$mpesa->b2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber );
+
+```
