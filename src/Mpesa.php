@@ -185,7 +185,7 @@ class Mpesa
 
     }
     /**
-     * Use this function to initiate a B2C transaction
+     * Use this function to initiate a C2B transaction
      * @param $ShortCode | 6 digit M-Pesa Till Number or PayBill Number
      * @param $CommandID | Unique command for each transaction type.
      * @param $Amount | The amount been transacted.
