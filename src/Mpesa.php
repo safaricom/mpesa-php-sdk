@@ -19,8 +19,8 @@ class Mpesa
      * @return mixed
      */
     public static function generateLiveToken(){
-        $consumer_key = config("services.mpesa.MPESA_CONSUMER_KEY");
-        $consumer_secret = config("services.mpesa.MPESA_CONSUMER_SECRET");
+        $consumer_key = self::getConfig("services.mpesa.MPESA_CONSUMER_KEY");
+        $consumer_secret = self::getConfig("services.mpesa.MPESA_CONSUMER_SECRET");
 
         if(!isset($consumer_key)||!isset($consumer_secret)){
             die("please declare the consumer key and consumer secret as defined in the documentation");
@@ -48,8 +48,8 @@ class Mpesa
      * @return mixed
      */
     public static function generateSandBoxToken(){
-        $consumer_key = config("services.mpesa.MPESA_CONSUMER_KEY");
-        $consumer_secret= config("services.mpesa.MPESA_CONSUMER_SECRET");
+        $consumer_key = self::getConfig("services.mpesa.MPESA_CONSUMER_KEY");
+        $consumer_secret= self::getConfig("services.mpesa.MPESA_CONSUMER_SECRET");
         if(!isset($consumer_key)||!isset($consumer_secret)){
             die("please declare the consumer key and consumer secret as defined in the documentation");
         }
@@ -84,7 +84,7 @@ class Mpesa
      * @return mixed|string
      */
     public static function reversal($CommandID, $Initiator, $SecurityCredential, $TransactionID, $Amount, $ReceiverParty, $RecieverIdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion){
-        $environment = config("services.mpesa.MPESA_ENV");
+        $environment = self::getConfig("services.mpesa.MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/reversal/v1/request';
@@ -93,7 +93,7 @@ class Mpesa
             $url = 'https://sandbox.safaricom.co.ke/mpesa/reversal/v1/request';
             $token=self::generateSandBoxToken();
         }else{
-            return json_encode(["Message"=>"invalid application status"]);
+            return json_encode(array("Message"=>"invalid application status"));
         }
 
 
@@ -142,7 +142,7 @@ class Mpesa
      * @return string
      */
     public static function b2c($InitiatorName, $SecurityCredential, $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion){
-        $environment = config("services.mpesa.MPESA_ENV");
+        $environment = self::getConfig("services.mpesa.MPESA_ENV");
 
         if( $environment == "live"){
             $url = 'https://api.safaricom.co.ke/mpesa/b2c/v1/paymentrequest';
@@ -151,7 +151,7 @@ class Mpesa
             $url = 'https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest';
             $token=self::generateSandBoxToken();
         }else{
-            return json_encode(["Message"=>"invalid application status"]);
+            return json_encode(array("Message"=>"invalid application status"));
         }
 
 
@@ -194,7 +194,7 @@ class Mpesa
      * @return mixed|string
      */
     public  static  function  c2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber ){
-        $environment = config("services.mpesa.MPESA_ENV");
+        $environment = self::getConfig("services.mpesa.MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/c2b/v1/simulate';
@@ -203,7 +203,7 @@ class Mpesa
             $url = 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate';
             $token=self::generateSandBoxToken();
         }else{
-            return json_encode(["Message"=>"invalid application status"]);
+            return json_encode(array("Message"=>"invalid application status"));
         }
 
 
@@ -245,7 +245,7 @@ class Mpesa
      * @return mixed|string
      */
     public static function accountBalance($CommandID, $Initiator, $SecurityCredential, $PartyA, $IdentifierType, $Remarks, $QueueTimeOutURL, $ResultURL){
-        $environment = config("services.mpesa.MPESA_ENV");
+        $environment = self::getConfig("services.mpesa.MPESA_ENV");
 
 
         if( $environment =="live"){
@@ -255,7 +255,7 @@ class Mpesa
             $url = 'https://sandbox.safaricom.co.ke/mpesa/accountbalance/v1/query';
             $token=self::generateSandBoxToken();
         }else{
-            return json_encode(["Message"=>"invalid application status"]);
+            return json_encode(array("Message"=>"invalid application status"));
         }
 
 
@@ -300,7 +300,7 @@ class Mpesa
      * @return mixed|string
      */
     public function transactionStatus($Initiator, $SecurityCredential, $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion){
-        $environment = config("services.mpesa.MPESA_ENV");
+        $environment = $this->getConfig("services.mpesa.MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query';
@@ -309,7 +309,7 @@ class Mpesa
             $url = 'https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query';
             $token=self::generateSandBoxToken();
         }else{
-            return json_encode(["Message"=>"invalid application status"]);
+            return json_encode(array("Message"=>"invalid application status"));
         }
 
         $curl = curl_init();
@@ -361,7 +361,7 @@ class Mpesa
      * @return mixed|string
      */
     public function b2b($Initiator, $SecurityCredential, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $AccountReference, $commandID, $SenderIdentifierType, $RecieverIdentifierType){
-        $environment = config("services.mpesa.MPESA_ENV");
+        $environment = $this->getConfig("services.mpesa.MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/b2b/v1/paymentrequest';
@@ -370,7 +370,7 @@ class Mpesa
             $url = 'https://sandbox.safaricom.co.ke/mpesa/b2b/v1/paymentrequest';
             $token=self::generateSandBoxToken();
         }else{
-            return json_encode(["Message"=>"invalid application status"]);
+            return json_encode(array("Message"=>"invalid application status"));
         }
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -414,7 +414,7 @@ class Mpesa
      * @return mixed|string
      */
     public function STKPushSimulation($BusinessShortCode, $LipaNaMpesaPasskey, $TransactionType, $Amount, $PartyA, $PartyB, $PhoneNumber, $CallBackURL, $AccountReference, $TransactionDesc, $Remark){
-        $environment = config("services.mpesa.MPESA_ENV");
+        $environment = $this->getConfig("services.mpesa.MPESA_ENV");
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
             $token=self::generateLiveToken();
@@ -422,7 +422,7 @@ class Mpesa
             $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
             $token=self::generateSandBoxToken();
         }else{
-            return json_encode(["Message"=>"invalid application status"]);
+            return json_encode(array("Message"=>"invalid application status"));
         }
 
 
@@ -472,7 +472,7 @@ class Mpesa
      * @return mixed|string
      */
     public static function STKPushQuery($environment, $checkoutRequestID, $businessShortCode, $password, $timestamp){
-        $environment = config("services.mpesa.MPESA_ENV");
+        $environment = self::getConfig("services.mpesa.MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query';
@@ -481,7 +481,7 @@ class Mpesa
             $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query';
             $token=self::generateSandBoxToken();
         }else{
-            return json_encode(["Message"=>"invalid application status"]);
+            return json_encode(array("Message"=>"invalid application status"));
         }
 
 
@@ -511,19 +511,20 @@ class Mpesa
 
     /**
      *Use this function to confirm all transactions in callback routes
+     * @param bool $status
      */
     public function finishTransaction($status = true)
     {
         if ($status === true) {
-            $resultArray=[
+            $resultArray = array(
                 "ResultDesc"=>"Confirmation Service request accepted successfully",
                 "ResultCode"=>"0"
-            ];
+            );
         } else {
-            $resultArray=[
+            $resultArray = array(
                 "ResultDesc"=>"Confirmation Service not accepted",
                 "ResultCode"=>"1"
-            ];
+            );
         }
 
         header('Content-Type: application/json');
@@ -540,5 +541,22 @@ class Mpesa
         return $callbackJSONData;
     }
 
+    /**
+     * Use this function to get the config from either the config() or env() functions
+     * @param $config | Environment config
+     * @return mixed|string
+     */
+    public static function getConfig($config)
+    {
+        if(function_exists('config')){
+            // fall through to env if config not found
+            if($value = config($config)){
+                return $value;
+            }
+        }
+        $var = explode('.',$config);
+        $key = (count($var) == 3)?$var[2]:$var[count($var)-1];
+        return env($key);
+    }
 
 }
