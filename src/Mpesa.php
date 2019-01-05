@@ -7,6 +7,9 @@
  */
 namespace Safaricom\Mpesa;
 
+include_once("../vendor/autoload.php");
+
+use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Class Mpesa
@@ -14,13 +17,31 @@ namespace Safaricom\Mpesa;
  */
 class Mpesa
 {
+
+    /** 
+    * Define env method similar to laravel's
+    *
+    * @param String $env_param | Environment Param Name
+    * 
+    * @return String | Actual Param
+    */
+    public static function env($env_param){
+
+        $dotenv = new Dotenv();
+
+        $dotenv->load('../.env');
+
+        $env = getenv($env_param);
+
+        return $env;
+    }
     /**
      * This is used to generate tokens for the live environment
      * @return mixed
      */
     public static function generateLiveToken(){
-        $consumer_key=env("MPESA_CONSUMER_KEY");
-        $consumer_secret=env("MPESA_CONSUMER_SECRET");
+        $consumer_key = (method_exists(__CLASS__,'env')) ? self::env("MPESA_CONSUMER_KEY") : env("MPESA_CONSUMER_KEY");
+        $consumer_secret = (method_exists(__CLASS__,'env')) ? self::env("MPESA_CONSUMER_SECRET") : env("MPESA_CONSUMER_SECRET");
 
         if(!isset($consumer_key)||!isset($consumer_secret)){
             die("please declare the consumer key and consumer secret as defined in the documentation");
@@ -48,8 +69,8 @@ class Mpesa
      * @return mixed
      */
     public static function generateSandBoxToken(){
-        $consumer_key= env("MPESA_CONSUMER_KEY");
-        $consumer_secret= env("MPESA_CONSUMER_SECRET");
+        $consumer_key = (method_exists(__CLASS__,'env')) ? self::env("MPESA_CONSUMER_KEY") : env("MPESA_CONSUMER_KEY");
+        $consumer_secret = (method_exists(__CLASS__,'env')) ? self::env("MPESA_CONSUMER_SECRET") : env("MPESA_CONSUMER_SECRET");
         if(!isset($consumer_key)||!isset($consumer_secret)){
             die("please declare the consumer key and consumer secret as defined in the documentation");
         }
@@ -84,7 +105,7 @@ class Mpesa
      * @return mixed|string
      */
     public static function reversal($CommandID, $Initiator, $SecurityCredential, $TransactionID, $Amount, $ReceiverParty, $RecieverIdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion){
-        $environment=env("MPESA_ENV");
+        $environment = (method_exists(__CLASS__,'env')) ? self::env("MPESA_ENV") : env("MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/reversal/v1/request';
@@ -142,7 +163,7 @@ class Mpesa
      * @return string
      */
     public static function b2c($InitiatorName, $SecurityCredential, $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion){
-        $environment=env("MPESA_ENV");
+        $environment = (method_exists(__CLASS__,'env')) ? self::env("MPESA_ENV") : env("MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/b2c/v1/paymentrequest';
@@ -194,7 +215,7 @@ class Mpesa
      * @return mixed|string
      */
     public  static  function  c2b($ShortCode, $CommandID, $Amount, $Msisdn, $BillRefNumber ){
-        $environment=env("MPESA_ENV");
+        $environment = (method_exists(__CLASS__,'env')) ? self::env("MPESA_ENV") : env("MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/c2b/v1/simulate';
@@ -245,7 +266,7 @@ class Mpesa
      * @return mixed|string
      */
     public static function accountBalance($CommandID, $Initiator, $SecurityCredential, $PartyA, $IdentifierType, $Remarks, $QueueTimeOutURL, $ResultURL){
-        $environment=env("MPESA_ENV");
+        $environment = (method_exists(__CLASS__,'env')) ? self::env("MPESA_ENV") : env("MPESA_ENV");
 
 
         if( $environment =="live"){
@@ -300,7 +321,7 @@ class Mpesa
      * @return mixed|string
      */
     public function transactionStatus($Initiator, $SecurityCredential, $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion){
-        $environment=env("MPESA_ENV");
+        $environment = (method_exists(__CLASS__,'env')) ? self::env("MPESA_ENV") : env("MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query';
@@ -361,7 +382,7 @@ class Mpesa
      * @return mixed|string
      */
     public function b2b($Initiator, $SecurityCredential, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $AccountReference, $commandID, $SenderIdentifierType, $RecieverIdentifierType){
-        $environment=env("MPESA_ENV");
+        $environment = (method_exists(__CLASS__,'env')) ? self::env("MPESA_ENV") : env("MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/b2b/v1/paymentrequest';
@@ -414,13 +435,13 @@ class Mpesa
      * @return mixed|string
      */
     public function STKPushSimulation($BusinessShortCode, $LipaNaMpesaPasskey, $TransactionType, $Amount, $PartyA, $PartyB, $PhoneNumber, $CallBackURL, $AccountReference, $TransactionDesc, $Remark){
-        $environment=env("MPESA_ENV");
+        $environment = (method_exists(__CLASS__,'env')) ? self::env("MPESA_ENV") : env("MPESA_ENV") ;
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
-            $token=self::generateLiveToken();
+            $token = self::generateLiveToken();
         }elseif ($environment=="sandbox"){
             $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
-            $token=self::generateSandBoxToken();
+            $token = self::generateSandBoxToken();
         }else{
             return json_encode(["Message"=>"invalid application status"]);
         }
@@ -446,8 +467,7 @@ class Mpesa
             'PhoneNumber' => $PhoneNumber,
             'CallBackURL' => $CallBackURL,
             'AccountReference' => $AccountReference,
-            'TransactionDesc' => $TransactionType,
-            'Remark'=> $Remark
+            'TransactionDesc' => $TransactionType
         );
 
         $data_string = json_encode($curl_post_data);
@@ -472,7 +492,7 @@ class Mpesa
      * @return mixed|string
      */
     public static function STKPushQuery($environment, $checkoutRequestID, $businessShortCode, $password, $timestamp){
-        $environment=env("MPESA_ENV");
+        $environment = (method_exists(__CLASS__,'env')) ? self::env("MPESA_ENV") : env("MPESA_ENV");
 
         if( $environment =="live"){
             $url = 'https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query';

@@ -19,6 +19,8 @@
     "psr-4": {
       "Safaricom\\Mpesa\\": "src/"
     }
+  },
+  "require-dev": {
+    "symfony/dotenv": "^4.3@dev"
   }
 }
-
