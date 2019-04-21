@@ -1,51 +1,55 @@
 **Introduction**
 
 This package seeks to help php developers implement the various Mpesa APIs without much hustle. It is based on the REST API whose documentation is available on https://developer.safaricom.co.ke.
- 
+
  **Installation using composer**<br>
  `composer require safaricom/mpesa`<br>
- 
- 
+
+
  **Configuration**<br>
  At your project root, create a .env file and in it set the consumer key and consumer secret as follows   
  `MPESA_CONSUMER_KEY= [consumer key]` <br>
  `MPESA_CONSUMER_SECRET=[consumer secret]`<br>
+ `MPESA_PASSWORD=[your mpesa password]`<br>
+ `MPESA_PUBLICKEYPATH=[/path/to/your/public_key_file.cer]`<br>
  `MPESA_ENV=[live or sandbox]`<br>
  For Laravel users, open the Config/App.php file and add `\Safaricom\Mpesa\MpesaServiceProvider::class` under providers and ` 'Mpesa'=> \Safaricom\Mpesa\MpesaServiceProvider::class` under aliases.
-  
+
   _Remember to edit the consumer_key and consumer_secret values appropriately when switching between sandbox and live_
 
-  
+
  **Usage**
- 
- **Confirmation and validation urls** 
+
+ **Confirmation and validation urls**
 
 **B2C Payment Request**
- 
- This creates transaction between an M-Pesa short code to a phone number registered on M-Pesa.
- 
-`$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$b2cTransaction=$mpesa->b2c($InitiatorName, $SecurityCredential, $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion);`
+ This creates transaction between an M-Pesa short code to a phone number registered on M-Pesa.
+
+`$mpesa= new \Safaricom\Mpesa\Mpesa();`
+Use this functional to generate the SecurityCredential if you have several different MPESA_PASSWORD and MPESA_PUBLICKEYPATH, if you only have one just declare your MPESA_PASSWORD and MPESA_PUBLICKEYPATH in your environment variables and do not pass it in subsequent functional calls
+`$SecurityCredential=$mpesa->generateSecurityCredential([$Password = null] [, $PublicKey = null]);`
+The $SecurityCredential is optional, it is automatically generated using your MPESA_PASSWORD and MPESA_PUBLICKEYPATH declared in your environment variables
+`$b2cTransaction=$mpesa->b2c($InitiatorName [, $SecurityCredential], $CommandID, $Amount, $PartyA, $PartyB, $Remarks, $QueueTimeOutURL, $ResultURL, $Occasion);`
 
 
 
 **Account Balance Request**
- 
+
 This is used to enquire the balance on an M-Pesa BuyGoods (Till Number)
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$balanceInquiry=$mpesa->accountBalance($CommandID, $Initiator, $SecurityCredential, $PartyA, $IdentifierType, $Remarks, $QueueTimeOutURL, $ResultURL);`
+`$balanceInquiry=$mpesa->accountBalance($CommandID, $Initiator [, $SecurityCredential], $PartyA, $IdentifierType, $Remarks, $QueueTimeOutURL, $ResultURL);`
 
 
 
 **Transaction Status Request**
-This is used to check the status of transaction. 
+This is used to check the status of transaction.
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
-`$trasactionStatus=$mpesa->transactionStatus($Initiator, $SecurityCredential, $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion);`
+`$trasactionStatus=$mpesa->transactionStatus($Initiator [, $SecurityCredential], $CommandID, $TransactionID, $PartyA, $IdentifierType, $ResultURL, $QueueTimeOutURL, $Remarks, $Occasion);`
 
 
 
@@ -85,7 +89,7 @@ This is used to initiate online payment on behalf of a customer.
 **STK Push Status Query**
 
  This is used to check the status of a Lipa Na M-Pesa Online Payment.
- 
+
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
 `$STKPushRequestStatus=$mpesa->STKPushQuery($checkoutRequestID,$businessShortCode,$password,$timestamp);`
@@ -98,24 +102,21 @@ M-Pesa APIs are asynchronous. When a valid M-Pesa API request is received by the
 
 **Obtaining post data from callbacks**
  This is used to get post data from callback in json format. The data can be decoded and stored in a database.
- 
+
  `$mpesa= new \Safaricom\Mpesa\Mpesa();`
- 
+
  `$callbackData=$mpesa->getDataFromCallback();`
-  
+
   **Finishing a transaction**
   After obtaining the Post data from the callbacks, use this at the end of your callback routes to complete the transaction
-  
+
   `$mpesa= new \Safaricom\Mpesa\Mpesa();`
-  
+
   `$callbackData=$mpesa->finishTransaction();`
 
 
   If validation fails, pass `false` to `finishTransaction()`
 
   `$mpesa= new \Safaricom\Mpesa\Mpesa();`
-  
+
   `$callbackData=$mpesa->finishTransaction(false);`
-
-
-
