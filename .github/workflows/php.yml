@@ -1,0 +1,78 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore
+Boot your fresh Pi and open a command prompt.
+Install the require library.
+sudo apt-get update
+sudo apt-get install python-pexpect
+sudo apt-get install libusb-dev libdbus-1-dev libglib2.0-dev 
+sudo apt-get install libudev-dev libical-dev libreadline-dev
+sudo pip install bluepy
+Clone this repo to the Pi.
+git clone https://github.com/OpenWonderLabs/python-host.git
+run the python code.
+cd python-host
+You can use in two ways:
+
+Scan and control by device name.
+sudo python switchbot.py
+Follow the instruction, input the device number for SwitchBot you want to control.
+Control SwitchBot by MAC address. (MAC address should be retrived in advanced)
+sudo python switchbot.py [mac_addr action_cmd]
+action_cmd :Press, Turn On, Turn Off.
+
+eg: sudo python switchbot.py  xx:xx:xx:xx:xx:xx Press
+Python 3 and new bluetooth stack support
+The original switchbot.py script will work only on Python 2 and it relies on the old Bluez utils (like hciconfig and hcitool) that have been deprecated in the latest Bluez releases.
+
+If you want to use the script on Python 3 or on a Linux distro that no longer ships Bluez with the old tools, use the switchbot_py3.py script instead.
+
+To install the required dependencies on Ubuntu/Debian/Raspbian:
+
+apt-get install python3-pip
+pip3 install pybluez
+apt-get install libboost-python-dev
+apt-get install libboost-thread-dev
+pip3 install gattlib
+If for some reason the gattlib installation fails:
+
+pip3 download gattlib
+tar xvzf ./gattlib-0.20150805.tar.gz
+cd gattlib-0.20150805/
+sed -ie 's/boost_python-py34/boost_python-py35/' setup.py
+pip3 install .
+Type python3 switchbot_py3.py --help for usage t-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+    # - name: Run test suite
+    #   run: composer run-script test
