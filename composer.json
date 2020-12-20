@@ -1,26 +1,37 @@
 {
-  "name": "safaricom/mpesa",
-  "description": "A PHP package for Mpesa API",
-  "type": "package",
- "minimum-stability": "dev", 
- 
-"require": {
-    "php": ">=5.3.0"
-  },
-  "license": "mit",
-  "authors": [
-    {
-      "name": "Moses Nandwa",
-      "email": "mnandwa@safaricom.co.ke"
+    "name": "safaricom/mpesa",
+    "description": "A PHP package for Mpesa API",
+    "type": "package",
+   "minimum-stability": "dev", 
+   
+  "require": {
+      "php": ">=5.3.0"
+    },
+    "license": "mit",
+    "authors": [
+      {
+        "name": "Moses Nandwa",
+        "email": "mnandwa@safaricom.co.ke"
+      }
+    ],
+   
+    "autoload": {
+      "psr-4": {
+        "Safaricom\\Mpesa\\": "src/"
+      }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Safaricom\\Mpesa\\MpesaServiceProvider"
+            ],
+            "aliases": {
+                "Mpesa": "\\Safaricom\\Mpesa\\MpesaServiceProvider"
+            }
+        }
+    },
+    "require-dev": {
+      "symfony/dotenv": "^4.3@dev"
     }
-  ],
- 
-  "autoload": {
-    "psr-4": {
-      "Safaricom\\Mpesa\\": "src/"
-    }
-  },
-  "require-dev": {
-    "symfony/dotenv": "^4.3@dev"
   }
-}
+  
