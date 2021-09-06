@@ -539,7 +539,7 @@ class Mpesa
      * @param $timestamp | Timestamp
      * @return mixed|string
      */
-    public static function STKPushQuery($environment, $checkoutRequestID, $businessShortCode, $password, $timestamp){
+    public static function STKPushQuery($checkoutRequestID, $businessShortCode, $password, $timestamp){
         
         try {
             $environment = env("MPESA_ENV");
