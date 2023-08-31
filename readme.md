@@ -1,13 +1,13 @@
 **Introduction**
 
-This package seeks to help php developers implement the various Mpesa APIs without much hustle. It is based on the REST API whose documentation is available on https://developer.safaricom.co.ke.
+This package seeks to help PHP developers implement the various Mpesa APIs without much hustle. It is based on the REST API whose documentation is available on https://developer.safaricom.co.ke.
  
- **Installation using composer**<br>
+ **Installation using Composer**<br>
  `composer require safaricom/mpesa`<br>
  
  
  **Configuration**<br>
- At your project root, create a .env file and in it set the consumer key and consumer secret as follows   
+ At your project root, create a .env file and in it set the consumer key, and consumer secret as follows   
  `MPESA_CONSUMER_KEY= [consumer key]` <br>
  `MPESA_CONSUMER_SECRET=[consumer secret]`<br>
  `MPESA_ENV=[live or sandbox]`<br>
@@ -18,11 +18,11 @@ This package seeks to help php developers implement the various Mpesa APIs witho
   
  **Usage**
  
- **Confirmation and validation urls** 
+ **Confirmation and validation URLs** 
 
 **B2C Payment Request**
  
- This creates transaction between an M-Pesa short code to a phone number registered on M-Pesa.
+ This creates a transaction between an M-Pesa short code to a phone number registered on M-Pesa.
  
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
@@ -32,7 +32,7 @@ This package seeks to help php developers implement the various Mpesa APIs witho
 
 **Account Balance Request**
  
-This is used to enquire the balance on an M-Pesa BuyGoods (Till Number)
+This is used to enquire about the balance on an M-Pesa BuyGoods (Till Number)
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
@@ -41,7 +41,7 @@ This is used to enquire the balance on an M-Pesa BuyGoods (Till Number)
 
 
 **Transaction Status Request**
-This is used to check the status of transaction. 
+This is used to check the status of a transaction. 
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
 
@@ -61,7 +61,7 @@ This is used to transfer funds between two companies.
 
 **C2B Payment Request**
 
-This is used to Simulate transfer of funds between a customer and business.
+This is used to Simulate the transfer of funds between a customer and a business.
 
 
 `$mpesa= new \Safaricom\Mpesa\Mpesa();`
@@ -97,7 +97,7 @@ This is used to initiate online payment on behalf of a customer.
 M-Pesa APIs are asynchronous. When a valid M-Pesa API request is received by the API Gateway, it is sent to M-Pesa where it is added to a queue. M-Pesa then processes the requests in the queue and sends a response to the API Gateway which then forwards the response to the URL registered in the CallBackURL or ResultURL request parameter. Whenever M-Pesa receives more requests than the queue can handle, M-Pesa responds by rejecting any more requests and the API Gateway sends a queue timeout response to the URL registered in the QueueTimeOutURL request parameter.
 
 **Obtaining post data from callbacks**
- This is used to get post data from callback in json format. The data can be decoded and stored in a database.
+ This is used to get post data from callbacks in json format. The data can be decoded and stored in a database.
  
  `$mpesa= new \Safaricom\Mpesa\Mpesa();`
  
